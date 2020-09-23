@@ -59,7 +59,9 @@ git安装教程：https://www.liaoxuefeng.com/wiki/896043488029600/8960670743384
 $ git clone git@github.com:HanLiangJ/weibo-crawler.git
 ```
 
-或者进入https://github.com/HanLiangJ/weibo-crawler，点击绿色Code按钮，选择下载压缩包，下载后解压。
+或者进入https://github.com/HanLiangJ/weibo-crawler
+
+点击绿色Code按钮，选择下载压缩包，下载后解压。
 
 **2.创建conda虚拟环境**
 
