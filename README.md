@@ -15,7 +15,144 @@
 * [如何获取cookie（可选）](#如何获取cookie可选)
 * [如何检测cookie是否有效（可选）](#如何检测cookie是否有效可选)
 
+## 专用设置
+
+直接看这里
+
+### 环境安装
+
+**1.下载安装Anaconda**
+
+windows下载：https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
+
+选择**Anaconda3-2020.07-Windows-x86_64.exe**开始下载，下载后安装。
+
+**注意：安装过程中要勾选“将Anaconda添加到环境变量”。**
+
+**2.配置conda镜像源**
+
+配置教程：https://zhuanlan.zhihu.com/p/95100538
+
+**3.安装pip环境**
+
+安装教程：https://www.cnblogs.com/yuanzm/p/4089856.html
+
+**注意：python版本推荐3.7，pip版本推荐最新，记得要添加环境变量才能在cmd中使用**
+
+**4.pip配置国内镜像源**
+
+配置教程：https://developer.aliyun.com/article/621632
+
+**4.安装git**
+
+如果是暂时测试，可以不安装git，此步骤可以忽略。
+
+如果从零使用git，在github注册账号，进行基础配置，配置教程：https://blog.csdn.net/qazwsxpcm/article/details/68946736
+
+git安装教程：https://www.liaoxuefeng.com/wiki/896043488029600/896067074338496
+
+### 启动前准备
+
+**1.github拉取**
+
+```
+$ git clone git@github.com:HanLiangJ/weibo-crawler.git
+```
+
+或者进入https://github.com/HanLiangJ/weibo-crawler，点击绿色Code按钮，选择下载压缩包，下载后解压。
+
+**2.创建conda虚拟环境**
+
+win+R打开“运行窗口”，输入“cmd”后确定，打开cmd窗口，窗口内输入以下命令。
+
+```
+$ conda create -n weibo-crawler-env python=3.6
+```
+
+这样就创建了一个weibo-crawler-env的conda虚拟环境。
+
+**3.激活conda虚拟环境**
+
+```
+$ conda activate weibo-crawler-env
+```
+
+激活后cmd每条命令的左侧会有一个(weibo-crawler-env)的标记
+
+**4.安装依赖包**
+
+用cmd命令进入之前下载的weibo-crawler代码文件夹内，进入命令如下。
+
+磁盘间的跳转命令（如现在在C盘，要转到D盘）
+
+```
+$ D:
+```
+
+打开文件夹命令（如现在要打开D:\weibo-crawler文件夹）
+
+```
+$ cd D:\weibo-crawler
+```
+
+进入weibo-crawler文件夹后，执行以下命令安装相关的依赖包
+
+```
+$ pip install -r requirements.txt
+```
+
+等待安装完成即可
+
+### 设置
+
+**1.设置id范围**
+
+如果要设置想要查找的微博id范围
+
+用文本文档格式打开\weibo-crawler\write_id_list.py，更改user_id_start和user_id_end，这两个变量代表用户id范围的起始值和结束值。
+
+**2.使用完成后**
+
+**注意：运行一次完成后清空user_id_list.txt**
+
+该步骤非常必要，因为每次运行weibo.py都会像user_id_list.txt中写入设置参数，如果不清空该文件，下一次变更参数设置后，执行仍会按照第一次的设置进行。
+
+**3.参数设置**
+
+虽然已经初步调整完成，但如果有临时想变更的设置，可以查看并依据后续章节中的**使用说明**进行相关配置。
+
+基本信息均在config.json文件中，基本需要设置的就是一个爬取时间，但如果不爬微博内容的话也可以不设置。
+
+**4.csv文件**
+
+用户id可能为科学技术法，将单元格设置为常规即可。
+
+### 启动
+
+**1.进入cmd**
+
+win+R打开“运行窗口”，输入“cmd”后确定，打开cmd窗口。
+
+**2.激活环境**
+
+使用conda指令激活之前安装的conda环境weibo-crawler-env
+
+```
+$ conda activate weibo-crawler-env
+```
+
+**3.启动**
+
+进入weibo-crawler文件夹根目录
+
+```
+$ python weibo.py 
+```
+
+<br>
+
 ## 功能
+
 连续爬取**一个**或**多个**新浪微博用户（如[Dear-迪丽热巴](https://weibo.cn/u/1669879400)、[郭碧婷](https://weibo.cn/u/1729370543)）的数据，并将结果信息写入文件。写入信息几乎包括了用户微博的所有数据，主要有**用户信息**和**微博信息**两大类，前者包含用户昵称、关注数、粉丝数、微博数等等；后者包含微博正文、发布时间、发布工具、评论数等等，因为内容太多，这里不再赘述，详细内容见[输出](#输出)部分。具体的写入文件类型如下：
 - 写入**csv文件**（默认）
 - 写入**json文件**（可选）
@@ -315,7 +452,7 @@ $ pip install pymongo
 ```
 MySQL和MongDB数据库的写入内容一样。程序首先会创建一个名为"weibo"的数据库，然后再创建"user"表和"weibo"表，包含爬取的所有内容。爬取到的微博**用户信息**或插入或更新，都会存储到user表里；爬取到的**微博信息**或插入或更新，都会存储到weibo表里，两个表通过user_id关联。如果想了解两个表的具体字段，请点击"详情"。
 <details>
-  
+
 <summary>详情</summary>
 
 **user**表<br>
@@ -384,7 +521,7 @@ $ python weibo.py
 wb.user包含爬取到的微博用户信息，如**用户id**、**用户昵称**、**性别**、**生日**、**所在地**、**教育经历**、**公司**、**阳光信用**、**微博注册时间**、**微博数**、**粉丝数**、**关注数**、**简介**、**主页地址**、**头像url**、**高清头像url**、**微博等级**、**会员等级**、**是否认证**、**认证类型**、**认证信息**等，大家可以点击"详情"查看具体用法。
 
 <details>
-  
+
 <summary>详情</summary>
 
 **id**：微博用户id，取值方式为wb.user['id'],由一串数字组成；<br>
@@ -414,7 +551,7 @@ wb.user包含爬取到的微博用户信息，如**用户id**、**用户昵称**
 **wb.weibo**：存储爬取到的所有微博信息；<br>
 wb.weibo包含爬取到的所有微博信息，如**微博id**、**正文**、**原始图片url**、**视频url**、**位置**、**日期**、**发布工具**、**点赞数**、**转发数**、**评论数**、**话题**、**@用户**等。如果爬的是全部微博(原创+转发)，除上述信息之外，还包含**原始用户id**、**原始用户昵称**、**原始微博id**、**原始微博正文**、**原始微博原始图片url**、**原始微博位置**、**原始微博日期**、**原始微博工具**、**原始微博点赞数**、**原始微博评论数**、**原始微博转发数**、**原始微博话题**、**原始微博@用户**等信息。wb.weibo是一个列表，包含了爬取的所有微博信息。wb.weibo[0]为爬取的第一条微博，wb.weibo[1]为爬取的第二条微博，以此类推。当filter=1时，wb.weibo[0]为爬取的第一条**原创**微博，以此类推。wb.weibo[0]['id']为第一条微博的id，wb.weibo[0]['text']为第一条微博的正文，wb.weibo[0]['created_at']为第一条微博的发布时间，还有其它很多信息不在赘述，大家可以点击下面的"详情"查看具体用法。
 <details>
-  
+
 <summary>详情</summary>
 
 **user_id**：存储微博用户id。如wb.weibo[0]['user_id']为最新一条微博的用户id；<br>
@@ -434,7 +571,7 @@ wb.weibo包含爬取到的所有微博信息，如**微博id**、**正文**、**
 **at_users**：存储微博@的用户。如wb.weibo[0]['at_users']为最新一条微博@的用户，若该条微博没有@的用户，则值为''；<br>
 **retweet**：存储转发微博中原始微博的全部信息。假如wb.weibo[0]为转发微博，则wb.weibo[0]['retweet']为该转发微博的原始微博，它存储的属性与wb.weibo[0]一样，只是没有retweet属性;若该条微博为原创微博，则wb[0]没有"retweet"属性，大家可以点击"详情"查看具体用法。<br>
 <details>
-  
+
 <summary>详情</summary>
 
 假设爬取到的第i条微博为转发微博，则它存在以下信息：<br>

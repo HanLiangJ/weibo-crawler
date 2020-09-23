@@ -216,6 +216,10 @@ class Weibo(object):
     def get_user_info(self):
         """获取用户信息"""
         params = {'containerid': '100505' + str(self.user_config['user_id'])}
+        # try:
+        #     js = self.get_json(params)
+        # except:
+        #     return False
         js = self.get_json(params)
         if js['ok']:
             info = js['data']['userInfo']
@@ -1011,11 +1015,20 @@ class Weibo(object):
                 if self.retweet_video_download:
                     self.download_files('video', 'retweet', wrote_count)
 
-    def get_pages(self):
-        """获取全部微博"""
+    def is_validate_id(self):
         try:
             self.get_user_info()
             self.print_user_info()
+        except:
+            return False
+        else:
+            return True
+
+    def get_pages(self):
+        """获取全部微博"""
+        try:
+            # self.get_user_info()
+            # self.print_user_info()
             since_date = datetime.strptime(self.user_config['since_date'],
                                            '%Y-%m-%d')
             today = datetime.strptime(str(date.today()), '%Y-%m-%d')
@@ -1081,16 +1094,23 @@ class Weibo(object):
 
     def start(self):
         """运行爬虫"""
-        try:
-            for user_config in self.user_config_list:
-                self.initialize_info(user_config)
-                self.get_pages()
+        # try:
+        for user_config in self.user_config_list:
+            self.initialize_info(user_config)
+            if self.is_validate_id():
+                pass
+                # self.get_pages()
+            else:
+                logger.info("id("+user_config['user_id']+")为无效用户id！！！ " )
                 logger.info(u'信息抓取完毕')
                 logger.info('*' * 100)
-                if self.user_config_file_path:
-                    self.update_user_config_file(self.user_config_file_path)
-        except Exception as e:
-            logger.exception(e)
+                continue
+            logger.info(u'信息抓取完毕')
+            logger.info('*' * 100)
+            if self.user_config_file_path:
+                self.update_user_config_file(self.user_config_file_path)
+        # except Exception as e:
+        #     logger.exception(e)
 
 
 def get_config():
