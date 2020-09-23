@@ -97,7 +97,7 @@ $ D:
 $ cd D:\weibo-crawler
 ```
 
-进入weibo-crawler文件夹后，执行以下命令安装相关的依赖包
+进入weibo-crawler文件夹后，执行以下命令，安装相关的依赖包
 
 ```
 $ pip install -r requirements.txt
@@ -145,7 +145,15 @@ win+R打开“运行窗口”，输入“cmd”后确定，打开cmd窗口。
 $ conda activate weibo-crawler-env
 ```
 
-**3.启动**
+**3.写入用户id**
+
+写入用户id，执行以下命令
+
+```
+$ python write_id_list.py
+```
+
+**4.启动**
 
 进入weibo-crawler文件夹根目录
 
