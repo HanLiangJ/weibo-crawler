@@ -43,7 +43,7 @@ windows下载：https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
 
 配置教程：https://developer.aliyun.com/article/621632
 
-**4.安装git**
+**5.安装git**
 
 如果是暂时测试，可以不安装git，此步骤可以忽略。
 
